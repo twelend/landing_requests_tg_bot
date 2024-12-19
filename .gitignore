@@ -9,4 +9,4 @@
 !.yarn/versions
 
 # env
-.env*
+.env

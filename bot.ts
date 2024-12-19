@@ -1,18 +1,31 @@
 require('dotenv').config()
 const TgApi = require('node-telegram-bot-api')
 const TOKEN = process.env.TG_TOKEN
+const fs = require('fs')
 
 const bot = new TgApi(TOKEN, {
     polling: true
 })
 
-const requestsInProcess = {};
+const loadRequestesFromFile = () => {
+    try {
+        return JSON.parse(fs.readFileSync('requestsInProcess.json', 'utf-8'))
+    } catch (error) {
+        return {}
+    }
+}
+
+const saveRequestsInProcess = (data) => {
+    fs.writeFileSync('requestsInProcess.json', JSON.stringify(data, null, 2), 'utf8');
+};
+
+const requestsInProcess = loadRequestesFromFile();
 
 const start = () => {
     bot.on('text', async (msg) => {
         const chatId = msg.chat.id
         if (msg.text === '/start') {
-            await bot.sendMessage(chatId, 'Привет, я бот-рекрутер. Сейчас расскажу как со мной работать.\n\nВ момент когда приходит заявка необходимо нажать кнопку \n"⏰ Взять в работу ⏰"\nВы увидите текст "⏳Заявка обрабатывается⏳"\nЭто сделано для того, чтобы другие операторы не обрабатывали одну заявку повторно \n\nЕсли заявка выполнена, нажмите "Выполнено"')
+            await bot.sendMessage(chatId, 'Привет, я бот-рекрутер. Сейчас расскажу как со мной работать.\n\nВ момент когда приходит заявка одному из операторов необходимо нажать кнопку \n"⏰ Взять в работу ⏰"\n\nВы увидите текст "⏳Заявка №<номер заявки> обрабатывается⏳"\n<i>Это сделано для того, чтобы другие операторы не обрабатывали одну заявку повторно</i> \n\nЕсли заявка выполнена, нажмите "✅ Завершить заявку ✅"')
         }
     })
 
@@ -29,16 +42,16 @@ const start = () => {
 
         if (msg.data.startsWith('/inprocess_')) {
             requestsInProcess[requestNum] = msg.from.id;
-
+            saveRequestsInProcess(requestsInProcess);
             const inlineKeyboard = {
                 inline_keyboard: [
                     [
-                        { text: 'Выполнено', callback_data: `/completed_${requestNum}` },
+                        { text: '✅ Завершить заявку ✅', callback_data: `/completed_${requestNum}` },
                     ],
                 ],
             };
 
-            await bot.editMessageText(`⏳Заявка №${requestNum} обрабатывается⏳\n\n${msg.message.text}`, {
+            await bot.editMessageText(`⏳@${msg.from.username} взял заявку #${requestNum} в обработку⏳\n\n${msg.message.text}`, {
                 chat_id: chatId,
                 message_id: messageId,
                 reply_markup: JSON.stringify(inlineKeyboard),
@@ -50,12 +63,14 @@ const start = () => {
 Данные заявки:
     Номер телефона клиента: 
         ${phone}
-    ${msg.message.text.split('\n')[4]}
+    Имя клиента: ${msg.message.text.split('\n')[4].split('-')[1]}
     Заявка подана:
-        ${msg.message.text.split('\n')[7].split(':')[1]}
+        Дата: ${msg.message.text.split('\n')[7].split('-')[1].trim().split(' ')[0]}
+        Время: ${msg.message.text.split('\n')[7].split('-')[1].trim().split(' ')[1]}
     Кто обрабатывал: @${msg.from.username}
     `);
                 delete requestsInProcess[requestNum];
+                saveRequestsInProcess(requestsInProcess)
             } else {
                 await bot.answerCallbackQuery(msg.id, {
                     text: 'Вы не обрабатываете эту заявку',

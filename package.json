@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/node": "^22.10.2",
     "dotenv": "^16.4.7",
+    "fs": "^0.0.1-security",
     "node-telegram-bot-api": "^0.66.0",
     "typescript": "^5.7.2"
   }

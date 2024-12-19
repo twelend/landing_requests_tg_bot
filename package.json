@@ -1,0 +1,19 @@
+{
+  "name": "req-bot",
+  "version": "1.0.0",
+  "main": "bot.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tg": "node bot.ts"
+  },
+  "keywords": [],
+  "author": "Sergeev Ilya Vladimirovich",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/node": "^22.10.2",
+    "dotenv": "^16.4.7",
+    "node-telegram-bot-api": "^0.66.0",
+    "typescript": "^5.7.2"
+  }
+}

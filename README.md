@@ -1,5 +1,13 @@
 # landing_requests_tg_bot
-A landing page solution that sends a request via a telegram bot to a Telegram channel
+A bot that sends anonymous requests! 
+That is, if you need to make sure that other operators do not see the application data. Then use this version of an anonymous bot
+
+A bot that sends anonymous requests! That is, if you need to make sure that other operators do not see the application data. Then use this version of an anonymous bot.
+
+This version of the bot has:
+- Saving the application to the database and updating the application when the operator takes it. 
+- The application data is sent in private messages.
+- Own backend with routers and controllers connected to the database.
 
 ## How to start work with **bot**?
 - Copy it `.env executed` the command: `cp .env.example .env`
@@ -12,12 +20,11 @@ Finally! The Bot is running <3
 
 ## How to interact with the **bot** via Frontend?
 
-- Move to derectory **example**
+- Move to derectory **frontend-example**
 
-- There u can find file named like `exampleSendRequest.tsx`
+- There u can find file named like `Request.tsx`
 
-- Read the comments or use this component in ur application
+- Change the request submission form to ur own.
 
-- Also in there u can find the directory named - `api`. `api` - is a catalog of server components of the application Next.js
+- Also in there u can find example of **.env** file, named like `.env.frontend.local`. Just change it to suit yourself.
 
-- Directory named `send-request` - is a endpoint which we can use in our Frontend like `axios.post('/api/send-request')`

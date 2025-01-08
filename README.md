@@ -4,7 +4,7 @@ That is, if you need to make sure that other operators do not see the applicatio
 
 A bot that sends anonymous requests! That is, if you need to make sure that other operators do not see the application data. Then use this version of an anonymous bot.
 
-This version of the bot has:
+## This version of the bot has:
 - Saving the application to the database and updating the application when the operator takes it. 
 - The application data is sent in private messages.
 - Own backend with routers and controllers connected to the database.

@@ -1,10 +1,11 @@
 # landing_requests_tg_bot
 
+A landing page solution that sends a request via a telegram bot to a Telegram channel
+
 ## **I've two versions of bot!**
 There is the first one **in this branch**, and the second one in the branch named `anonim`.
 Description of an Anonymous bot in the `anonim` branch
 
-A landing page solution that sends a request via a telegram bot to a Telegram channel
 
 ## How to start work with **bot**?
 - Copy it `.env executed` the command: `cp .env.example .env`
